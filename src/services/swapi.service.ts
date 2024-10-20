@@ -19,12 +19,46 @@ class SwapiService extends Service {
     }
   }
 
-  async getHero(id: string): Promise<any> {
+  async getHero(id: string | number): Promise<any> {
     try {
       const res = await fetch(`${this.base_url}/people/${id}`);
 
       if (!res.ok) {
         throw new Error(`Failed fetching the hero (id=${id}).`)
+      }
+
+      return await res.json();
+    } catch (error) {
+      handleServiceError(error);
+    }
+  }
+
+  async getFilm(id: string | number): Promise<any> {
+    try {
+      const res = await fetch(`${this.base_url}/films/${id}`);
+
+      if (!res.ok) {
+        throw new Error(`Failed fetching the film (id=${id}).`)
+      }
+
+      return await res.json();
+    } catch (error) {
+      handleServiceError(error);
+    }
+  }
+
+  async getStarship(id: string | number): Promise<any> {
+    try {
+      const res = await fetch(`${this.base_url}/starships/${id}`, {
+        method: 'GET',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        mode: 'no-cors'
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed fetching the starship (id=${id}).`)
       }
 
       return await res.json();
